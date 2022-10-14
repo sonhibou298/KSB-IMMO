@@ -1,0 +1,36 @@
+# configure the h2 database connection
+spring:
+  cloud:
+    config:
+      import-check:
+        enabled: false
+  application:
+    name: landlord-service
+  datasource:
+    url: jdbc:h2:mem:landlords
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.H2Dialect
+  # configure the h2 console
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+server:
+  port: 9000
+
+app:
+  landlord-service:
+    url: http://localhost:8090/landlords/
