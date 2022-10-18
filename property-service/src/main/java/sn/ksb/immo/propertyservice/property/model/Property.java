@@ -46,6 +46,10 @@ public class Property {
 
     private Integer bathroomsNo;
 
+    private Integer livingRoomsNo;
+
+    private Integer diningRoomsNo;
+
     private Integer toiletsNo;
 
     private Integer kitchensNo;

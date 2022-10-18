@@ -1,13 +1,9 @@
 # configure the h2 database connection
 spring:
-  cloud:
-    config:
-      import-check:
-        enabled: false
   application:
     name: landlord-service
   datasource:
-    url: jdbc:h2:mem:landlords
+    url: jdbc:h2:mem:rooms
     driverClassName: org.h2.Driver
     username: sa
     password:
@@ -29,10 +25,10 @@ spring:
         trace: false
         web-allow-others: false
 server:
-  port: 9000
+  port: 9010
 
 app:
-  landlord-service:
-    url: http://localhost:8090/landlords/
-  room-service:
-    url: http://localhost:9010/rooms/
+  situation-service:
+    url: http://localhost:9001/situations/
+  property-service:
+    url: http://localhost:9000/properties/

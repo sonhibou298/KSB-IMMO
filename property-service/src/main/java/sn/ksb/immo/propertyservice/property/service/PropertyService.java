@@ -3,6 +3,7 @@ package sn.ksb.immo.propertyservice.property.service;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class PropertyService {
     private final ModelMapper mapper;
 
     private final RestTemplate template;
+
+    @Value("${app.room-service.url}")
+    private String roomServiceUrl;
 
     public PropertyService(PropertyRepo repo, ModelMapper mapper, RestTemplate template) {
         this.repo = repo;
@@ -125,6 +129,38 @@ public class PropertyService {
             property.setType(PropertyType.valueOf(dto.getType().toUpperCase()));
             //save the property in the repository
             property = repo.save(property);
+            //if the property is not null
+            if (property.getId() != null) {
+                //log the property creation
+                log.info("Property created successfully with the UUID: {}", property.getId());
+                //log creating the rooms for the property
+                log.info("Creating the rooms for the property");
+                //try to create the rooms for the property
+                try {
+                    //create rooms for the property by calling the room service
+                    //and passing the propertyId and the number of bedrooms
+                    template.postForEntity(roomServiceUrl + property.getId() + "/" + dto.getBedroomsNo() + "/Bedroom", null, String.class);
+                    //create bathrooms for the property by calling the room service
+                    //and passing the propertyId and the number of bathrooms
+                    template.postForEntity(roomServiceUrl + property.getId() + "/" + dto.getBathroomsNo() + "/Bathroom", null, String.class);
+                    //create kitchens for the property by calling the room service
+                    //and passing the propertyId and the number of kitchens
+                    template.postForEntity(roomServiceUrl + property.getId() + "/" + dto.getKitchensNo() + "/Kitchen", null, String.class);
+                    //create living rooms for the property by calling the room service
+                    //and passing the propertyId and the number of living rooms
+                    template.postForEntity(roomServiceUrl + property.getId() + "/" + dto.getLivingRoomsNo() + "/LivingRoom", null, String.class);
+                    //create dining rooms for the property by calling the room service
+                    //and passing the propertyId and the number of dining rooms
+                    template.postForEntity(roomServiceUrl + property.getId() + "/" + dto.getDiningRoomsNo() + "/DiningRoom", null, String.class);
+                    //create garages for the property by calling the room service
+                    //and passing the propertyId and the number of garages
+                    template.postForEntity(roomServiceUrl + property.getId() + "/" + dto.getGaragesNo() + "/Garage", null, String.class);
+                } catch (Exception e) {
+                    //if an error occurs, log it
+                    log.error("Error while creating the rooms for the property with the UUID: " + property.getId() + " : " + e.getMessage());
+                }
+
+            }
         } catch (Exception e) {
             //if an error occurs, log it
             log.error("Error while creating the property : " + e.getMessage());

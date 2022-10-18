@@ -59,6 +59,17 @@ public class PropertyDTO {
     @NotBlank(message = "Property bedrooms cannot be blank")
     private Integer bedroomsNo;
 
+
+    @NotEmpty(message = "Property bedrooms cannot be empty")
+    @NotNull(message = "Property bedrooms cannot be null")
+    @NotBlank(message = "Property bedrooms cannot be blank")
+    private Integer livingRoomsNo;
+
+    @NotEmpty(message = "Property bedrooms cannot be empty")
+    @NotNull(message = "Property bedrooms cannot be null")
+    @NotBlank(message = "Property bedrooms cannot be blank")
+    private Integer diningRoomsNo;
+
     @NotEmpty(message = "Property bathrooms cannot be empty")
     @NotNull(message = "Property bathrooms cannot be null")
     @NotBlank(message = "Property bathrooms cannot be blank")
