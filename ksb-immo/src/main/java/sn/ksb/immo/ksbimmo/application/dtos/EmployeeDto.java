@@ -1,6 +1,9 @@
 package sn.ksb.immo.ksbimmo.application.dtos;
 
 
+import lombok.Data;
+
+@Data
 public class EmployeeDto {
     private String id;
     private String nom;

@@ -1,5 +1,8 @@
 package sn.ksb.immo.ksbimmo.application.dtos;
 
+import lombok.Data;
+
+@Data
 public class ProprieteDto {
     private String id;
     private String description;
@@ -18,4 +21,6 @@ public class ProprieteDto {
     private Boolean jardin;
     private Boolean ascenseur;
     private String apporteurAffaire;
+    private String agenceId;
+    private String proprietaireId;
 }

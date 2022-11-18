@@ -13,4 +13,6 @@ public interface EmployeeRepo extends JpaRepository<Employee, UUID> {
     List<Employee> findByAgence_Id(UUID agenceId);
 
     Employee findByMatricule(String matricule);
+
+    void deleteByMatricule(String matricule);
 }
