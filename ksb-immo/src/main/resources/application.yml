@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ksb-immo-portal
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:h2:mem:ksb-immo-portal;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: root
+    password: root
+    driver-class-name: org.h2.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+        hibernate:
+            dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+  profiles:
+    active: dev
+
+ksb:
+  immo:
+    jwt:
+      secret: ksb-immo-portal
+      expiration: 3600000
+
+---
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ksb_immo_portal?useSSL=false
+    username: root
+    password: dieme
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+        hibernate:
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  config:
+    activate:
+      on-profile: prod
