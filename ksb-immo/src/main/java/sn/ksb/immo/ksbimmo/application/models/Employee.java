@@ -27,9 +27,6 @@ public class Employee extends Utilisateur{
     @Column(unique = true)
     private String email;
 
-    @Column(unique = true)
-    private String cni;
-
     @Column(columnDefinition = "TEXT")
     private String adresse;
 

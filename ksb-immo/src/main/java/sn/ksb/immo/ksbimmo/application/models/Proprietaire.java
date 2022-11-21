@@ -1,13 +1,10 @@
 package sn.ksb.immo.ksbimmo.application.models;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -29,12 +26,9 @@ public class Proprietaire extends Utilisateur {
     @Column(unique = true)
     private String email;
 
-    @Column(unique = true)
-    private String cni;
 
     private String profession;
 
-    private Date dateDelivrance;
 
     private Date dateNaissance;
 

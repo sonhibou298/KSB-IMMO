@@ -9,5 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface AgenceRepo extends JpaRepository<Agence, UUID> {
+    List<Agence> findByRegion(String region);
 
+    List<Agence> findByRegionAndDepartement(String region, String departement);
 }

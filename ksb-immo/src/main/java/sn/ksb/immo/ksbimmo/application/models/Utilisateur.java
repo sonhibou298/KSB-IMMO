@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 import sn.ksb.immo.ksbimmo.application.enums.Role;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -26,11 +27,19 @@ public class Utilisateur {
     private UUID id;
 
     @Column(unique = true)
+    private String cni;
+
+    private Date dateDelivranceCni;
+
+    @Column(unique = true)
     private String username;
 
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(insertable = false, updatable = false)
+    private String type_utilisateur;
 
 }

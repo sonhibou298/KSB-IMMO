@@ -11,6 +11,7 @@ public class EmployeeDto {
     private String telephone;
     private String email;
     private String cni;
+    private String dateDelivranceCni;
     private String adresse;
     private String numCompteBancaire;
     private Boolean manager;

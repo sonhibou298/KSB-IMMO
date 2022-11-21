@@ -17,6 +17,7 @@ public class ProprietaireDto {
     private String dateDelivrance;
     private String dateNaissance;
     private String cni;
+    private String dateDelivranceCni;
     private String numCompteBancaire;
     List<ProprieteDto> proprietes;
 

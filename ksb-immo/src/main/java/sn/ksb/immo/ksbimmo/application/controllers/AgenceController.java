@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sn.ksb.immo.ksbimmo.application.dtos.AgenceDto;
 import sn.ksb.immo.ksbimmo.application.models.Agence;
 import sn.ksb.immo.ksbimmo.application.services.AgenceService;
 
@@ -76,7 +77,7 @@ public class AgenceController {
 
     //create agence
     @PostMapping
-    public Agence createAgence(@RequestBody @Validated Agence agence) {
+    public Agence createAgence(@RequestBody @Validated AgenceDto agence) {
         //log the entry of the method
         log.info("Entrée dans la méthode createAgence du controller AgenceController");
         //log the agence parameter
@@ -142,5 +143,61 @@ public class AgenceController {
         }
         //log the exit of the method
         log.info("Sortie de la méthode deleteAgence du controller AgenceController");
+    }
+
+    //get agence by region
+    @GetMapping("/region/{region}")
+    public List<Agence> getAgenceByRegion(@PathVariable String region) {
+        //log the entry of the method
+        log.info("Entrée dans la méthode getAgenceByRegion du controller AgenceController");
+        //initialize a list of agence
+        List<Agence> agences = null;
+        //log the region parameter
+        log.info("Paramètre region : " + region);
+        //try to get the agence from the service
+        try {
+            agences = service.getAgencesByRegion(region);
+        } catch (Exception e) {
+            //log the error
+            log.error("Erreur lors de la récupération de l'agence dans la base de données");
+        }
+        //if the agence is null
+        if (agences == null) {
+            //log the error
+            log.error("Aucune agence n'a été trouvée dans la base de données");
+        }
+        //log the exit of the method
+        log.info("Sortie de la méthode getAgenceByRegion du controller AgenceController");
+        //return the agence
+        return agences;
+    }
+
+    //get agence by region and departement
+    @GetMapping("/region/{region}/departement/{departement}")
+    public List<Agence> getAgenceByRegionAndDepartement(@PathVariable String region, @PathVariable String departement) {
+        //log the entry of the method
+        log.info("Entrée dans la méthode getAgenceByRegionAndDepartement du controller AgenceController");
+        //initialize a list of agence
+        List<Agence> agences = null;
+        //log the region parameter
+        log.info("Paramètre region : " + region);
+        //log the departement parameter
+        log.info("Paramètre departement : " + departement);
+        //try to get the agence from the service
+        try {
+            agences = service.getAgencesByRegionAndDepartement(region, departement);
+        } catch (Exception e) {
+            //log the error
+            log.error("Erreur lors de la récupération de l'agence dans la base de données");
+        }
+        //if the agence is null
+        if (agences == null) {
+            //log the error
+            log.error("Aucune agence n'a été trouvée dans la base de données");
+        }
+        //log the exit of the method
+        log.info("Sortie de la méthode getAgenceByRegionAndDepartement du controller AgenceController");
+        //return the agence
+        return agences;
     }
 }

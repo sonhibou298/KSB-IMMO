@@ -1,13 +1,16 @@
 package sn.ksb.immo.ksbimmo.application.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import sn.ksb.immo.ksbimmo.application.dtos.AgenceDto;
 import sn.ksb.immo.ksbimmo.application.models.Agence;
 import sn.ksb.immo.ksbimmo.application.models.Employee;
 import sn.ksb.immo.ksbimmo.application.repositories.AgenceRepo;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +21,11 @@ public class AgenceService {
 
     private final AgenceRepo agenceRepo;
 
-    public AgenceService(AgenceRepo agenceRepo) {
+    private final ModelMapper mapper;
+
+    public AgenceService(AgenceRepo agenceRepo, ModelMapper mapper) {
         this.agenceRepo = agenceRepo;
+        this.mapper = mapper;
     }
 
     //récupérer toutes les agences qui ne sont pas supprimées
@@ -80,15 +86,17 @@ public class AgenceService {
     }
 
     //ajouter une agence
-    public Agence addAgence(Agence agence) {
+    public Agence addAgence(AgenceDto dto) {
         //log entrée dans la méthode addAgence du service AgenceService
         log.info("Entrée dans la méthode addAgence du service AgenceService");
+        Agence agence = mapper.map(dto, Agence.class);
         //try catch pour ajouter l'agence
         try {
             //ajouter l'agence a la liste des employés
             for (Employee employee : agence.getEmployees()) {
                 employee.setAgence(agence);
             }
+            agence.setDateCreation(new Date());
             //ajout de l'agence
             agence = agenceRepo.save(agence);
             //log ajout de l'agence
@@ -168,5 +176,64 @@ public class AgenceService {
         return isDeleted;
     }
 
-    
+    //récupérer les agences par région
+    public List<Agence> getAgencesByRegion(String region) {
+        //log entrée dans la méthode getAgencesByRegion du service AgenceService
+        log.info("Entrée dans la méthode getAgencesByRegion du service AgenceService");
+        //initialisation de la liste des agences
+        List<Agence> agences = new ArrayList<>();
+        //log region
+        log.info("Paramètre region : " + region);
+        //try catch pour récupérer les agences
+        try {
+            //récupération des agences
+            agences = agenceRepo.findByRegion(region);
+            //log récupération des agences
+            log.info("Récupération des agences");
+        } catch (Exception e) {
+            //log erreur récupération des agences
+            log.error("Erreur lors de la récupération des agences");
+        }
+        //si la liste des agences est vide
+        if (agences.isEmpty()) {
+            //log agences non trouvées dans la base de données
+            log.error("Agences non trouvées dans la base de données");
+        }
+        //log sortie de la méthode getAgencesByRegion du service AgenceService
+        log.info("Sortie de la méthode getAgencesByRegion du service AgenceService");
+        //retourner la liste des agences
+        return agences;
+    }
+
+    //récupérer les agences par région et département
+    public List<Agence> getAgencesByRegionAndDepartement(String region, String departement) {
+        //log entrée dans la méthode getAgencesByRegionAndDepartement du service AgenceService
+        log.info("Entrée dans la méthode getAgencesByRegionAndDepartement du service AgenceService");
+        //initialisation de la liste des agences
+        List<Agence> agences = new ArrayList<>();
+        //log region
+        log.info("Paramètre region : " + region);
+        //log departement
+        log.info("Paramètre departement : " + departement);
+        //try catch pour récupérer les agences
+        try {
+            //récupération des agences
+            agences = agenceRepo.findByRegionAndDepartement(region, departement);
+            //log récupération des agences
+            log.info("Récupération des agences");
+        } catch (Exception e) {
+            //log erreur récupération des agences
+            log.error("Erreur lors de la récupération des agences");
+        }
+        //si la liste des agences est vide
+        if (agences.isEmpty()) {
+            //log agences non trouvées dans la base de données
+            log.error("Agences non trouvées dans la base de données");
+        }
+        //log sortie de la méthode getAgencesByRegionAndDepartement du service AgenceService
+        log.info("Sortie de la méthode getAgencesByRegionAndDepartement du service AgenceService");
+        //retourner la liste des agences
+        return agences;
+    }
+
 }

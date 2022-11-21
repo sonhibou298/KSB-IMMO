@@ -12,7 +12,7 @@ public class ApporteurDto {
     private String adresse;
     private String profession;
 
-    private String dateDelivrance;
+    private String dateDelivranceCni;
 
     private String dateNaissance;
 

@@ -1,8 +1,10 @@
 package sn.ksb.immo.ksbimmo.application.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class AgenceDto {
@@ -10,7 +12,6 @@ public class AgenceDto {
     private String nom;
     private String region;
     private String departement;
-    private String ville;
     private String telephone;
-    private Date dateCreation;
+    private List<EmployeeDto> employees;
 }

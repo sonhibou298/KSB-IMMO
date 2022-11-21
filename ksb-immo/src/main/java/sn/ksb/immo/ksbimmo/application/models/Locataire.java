@@ -25,8 +25,6 @@ public class Locataire extends Utilisateur{
 
     private String profession;
 
-    private String cni;
-
     @OneToOne
     private Locataire conjoint;
 

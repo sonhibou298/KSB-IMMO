@@ -37,7 +37,7 @@ public class Apporteur {
 
     private String profession;
 
-    private Date dateDelivrance;
+    private Date dateDelivranceCni;
 
     private Date dateNaissance;
 
