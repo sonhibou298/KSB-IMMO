@@ -57,7 +57,10 @@ public class Propriete {
 
     private Boolean ascenseur;
 
-    private String apporteurAffaire;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ToString.Exclude
+    private Apporteur apporteurAffaire;
 
     @JsonIgnore
     @ManyToOne(targetEntity = Proprietaire.class, fetch = FetchType.LAZY)

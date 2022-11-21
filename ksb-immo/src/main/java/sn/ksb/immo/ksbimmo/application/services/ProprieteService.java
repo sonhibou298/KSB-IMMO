@@ -146,7 +146,6 @@ public class ProprieteService {
             //log erreur ajout de la propriété
             log.error("Erreur lors de l'ajout de la propriété");
         }
-        ;
         if (proprieteToSave != null && proprieteToSave.getId() != null) {
             //log enregistrement de la propriété avec l'id
             log.info("Enregistrement de la propriété avec l'id : {}" , proprieteToSave.getId());
@@ -158,19 +157,42 @@ public class ProprieteService {
     }
 
     //modifier une propriété
-    public Propriete updatePropriete(Propriete propriete) {
+    public Propriete updatePropriete(ProprieteDto dto) {
         //log entrée dans la méthode updatePropriete du service ProprieteService
         log.info("Entrée dans la méthode updatePropriete du service ProprieteService");
+        Propriete propriete = null;
         try {
-
-
-            //modifier la propriété
-            propriete= proprieteRepo.save(propriete);
+            //récupérer la propriété
+            propriete = proprieteRepo.findById(UUID.fromString(dto.getId())).orElse(null);
+            //si la propriété n'est pas null
+            if (propriete != null) {
+                //mapper la propriété
+                propriete = mapper.map(dto, Propriete.class);
+                //récupérer l'agence
+                Agence agence = agenceRepo.findById(UUID.fromString(dto.getAgenceId())).orElse(null);
+                if (agence == null) {
+                    //log aucune agence trouvée dans la base de données
+                    throw new Exception("Aucune agence trouvée dans la base de données pour l'id : {}" + dto.getAgenceId());
+                }
+                //récupérer le propriétaire
+                Proprietaire proprietaire = proprietaireRepo.findById(UUID.fromString(dto.getProprietaireId())).orElse(null);
+                if (proprietaire == null) {
+                    //log aucun propriétaire trouvé dans la base de données
+                    throw new Exception("Aucun propriétaire trouvé dans la base de données pour l'id : {}" + dto.getProprietaireId());
+                }
+                propriete.setAgence(agence);
+                propriete.setProprietaire(proprietaire);
+                //modifier la propriété
+                propriete = proprieteRepo.save(propriete);
+            }
+            else {
+                //log aucune propriété trouvée dans la base de données
+                log.error("Aucune propriété trouvée dans la base de données pour l'id : {}" , dto.getId());
+            }
         } catch (Exception e) {
             //log erreur modification de la propriété
             log.error("Erreur lors de la modification de la propriété");
         }
-        ;
         if (propriete != null && propriete.getId() != null) {
             //log modification de la propriété avec l'id
             log.info("Modification de la propriété avec l'id : {}" , propriete.getId());
