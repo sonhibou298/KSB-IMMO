@@ -220,4 +220,23 @@ public class ProprieteService {
         //log sortie de la méthode deletePropriete du service ProprieteService
         log.info("Sortie de la méthode deletePropriete du service ProprieteService");
     }
+
+    //récupérer propriété par status
+    public List<Propriete> getProprieteByStatus(Boolean status) {
+        //log entrée dans la méthode getProprieteByStatus du service ProprieteService
+        log.info("Entrée dans la méthode getProprieteByStatus du service ProprieteService");
+        List<Propriete> proprieteList = null;
+        try {
+            //récupérer la liste des propriétés par status
+            proprieteList = proprieteRepo.findByStatus(status);
+        } catch (Exception e) {
+            //log erreur récupération de la liste des propriétés par status
+            log.error("Erreur lors de la récupération de la liste des propriétés par status");
+        }
+        //log sortie de la méthode getProprieteByStatus du service ProprieteService
+        log.info("Sortie de la méthode getProprieteByStatus du service ProprieteService");
+        //retourner la liste des propriétés
+        return proprieteList;
+    }
+    
 }

@@ -1,5 +1,6 @@
 package sn.ksb.immo.ksbimmo.application.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -40,6 +41,7 @@ public class Agence {
 
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonIgnore
     private List<Employee> employees;
 
 }

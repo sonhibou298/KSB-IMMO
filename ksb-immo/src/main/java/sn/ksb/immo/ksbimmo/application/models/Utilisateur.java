@@ -39,7 +39,6 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(insertable = false, updatable = false)
     private String type_utilisateur;
 
 }

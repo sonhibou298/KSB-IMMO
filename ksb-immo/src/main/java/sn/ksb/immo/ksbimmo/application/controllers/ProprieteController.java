@@ -151,4 +151,48 @@ public class ProprieteController {
         //retour de la propriété
         return propriete;
     }
+
+    //récupérer les propriétés qui sont louées
+    @GetMapping("/louees")
+    public List<Propriete> getProprietesLouees() {
+        //log entrée dans la méthode getProprietesLouees du controller ProprieteController
+        log.info("Entrée dans la méthode getProprietesLouees du controller ProprieteController");
+        List<Propriete> proprietes = new ArrayList<>();
+        //try catch pour récupérer les propriétés
+        try {
+            //récupération des propriétés
+            proprietes = proprieteService.getProprieteByStatus(true);
+            //log récupération des propriétés
+            log.info("Récupération des propriétés");
+        } catch (Exception e) {
+            //log erreur récupération des propriétés
+            log.error("Erreur lors de la récupération des propriétés");
+        }
+        //log sortie de la méthode getProprietesLouees du controller ProprieteController
+        log.info("Sortie de la méthode getProprietesLouees du controller ProprieteController");
+        //retour des propriétés
+        return proprietes;
+    }
+
+    //récupérer les propriétés qui sont disponibles
+    @GetMapping("/disponibles")
+    public List<Propriete> getProprietesDisponibles() {
+        //log entrée dans la méthode getProprietesDisponibles du controller ProprieteController
+        log.info("Entrée dans la méthode getProprietesDisponibles du controller ProprieteController");
+        List<Propriete> proprietes = new ArrayList<>();
+        //try catch pour récupérer les propriétés
+        try {
+            //récupération des propriétés
+            proprietes = proprieteService.getProprieteByStatus(false);
+            //log récupération des propriétés
+            log.info("Récupération des propriétés");
+        } catch (Exception e) {
+            //log erreur récupération des propriétés
+            log.error("Erreur lors de la récupération des propriétés");
+        }
+        //log sortie de la méthode getProprietesDisponibles du controller ProprieteController
+        log.info("Sortie de la méthode getProprietesDisponibles du controller ProprieteController");
+        //retour des propriétés
+        return proprietes;
+    }
 }

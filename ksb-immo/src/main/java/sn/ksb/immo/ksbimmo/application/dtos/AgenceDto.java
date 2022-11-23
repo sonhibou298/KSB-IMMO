@@ -13,5 +13,6 @@ public class AgenceDto {
     private String region;
     private String departement;
     private String telephone;
+    private String adresse;
     private List<EmployeeDto> employees;
 }

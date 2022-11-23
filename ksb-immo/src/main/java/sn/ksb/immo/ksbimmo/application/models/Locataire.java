@@ -2,8 +2,8 @@ package sn.ksb.immo.ksbimmo.application.models;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -25,7 +25,20 @@ public class Locataire extends Utilisateur{
 
     private String profession;
 
+    @Embedded
+    private SituationProfessionnelle situationProfessionnelle;
+
     @OneToOne
     private Locataire conjoint;
+
+    @ManyToMany
+    @JoinColumn(table = "locataire_agence")
+    private List<Agence> agences;
+
+    private String numCompteBancaire;
+
+    @ManyToMany
+    @JoinColumn(table = "locataire_propriete")
+    private List<Propriete> proprietes;
 
 }

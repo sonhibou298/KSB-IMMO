@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import sn.ksb.immo.ksbimmo.application.dtos.EmployeeDto;
+import sn.ksb.immo.ksbimmo.application.enums.Role;
 import sn.ksb.immo.ksbimmo.application.models.Agence;
 import sn.ksb.immo.ksbimmo.application.models.Employee;
 import sn.ksb.immo.ksbimmo.application.repositories.AgenceRepo;
@@ -124,6 +125,12 @@ public class EmployeeService {
         Employee employee = null;
         try {
             employee = mapper.map(dto, Employee.class);
+
+            Agence agence = agenceRepo.findById(UUID.fromString(dto.getAgenceId())).orElse(null);
+            if (agence != null) {
+                employee.setAgence(agence);
+            }
+            employee.setRole(Role.AGENT);
             //ajout de l'employé
             employee = employeeRepo.save(employee);
             //log ajout de l'employé

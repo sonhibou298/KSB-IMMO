@@ -57,6 +57,9 @@ public class Propriete {
 
     private Boolean ascenseur;
 
+    @Column(columnDefinition = "boolean default false")
+    private Boolean status;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @ToString.Exclude
