@@ -238,5 +238,23 @@ public class ProprieteService {
         //retourner la liste des propriétés
         return proprieteList;
     }
+
+    //récupérer propriétés par adresse
+    public List<Propriete> getProprieteByAdresse(String adresse) {
+        //log entrée dans la méthode getProprieteByAdresse du service ProprieteService
+        log.info("Entrée dans la méthode getProprieteByAdresse du service ProprieteService");
+        List<Propriete> proprieteList = null;
+        try {
+            //récupérer la liste des propriétés par adresse
+            proprieteList = proprieteRepo.findByAdresse(adresse);
+        } catch (Exception e) {
+            //log erreur récupération de la liste des propriétés par adresse
+            log.error("Erreur lors de la récupération de la liste des propriétés par adresse");
+        }
+        //log sortie de la méthode getProprieteByAdresse du service ProprieteService
+        log.info("Sortie de la méthode getProprieteByAdresse du service ProprieteService");
+        //retourner la liste des propriétés
+        return proprieteList;
+    }
     
 }

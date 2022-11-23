@@ -195,4 +195,26 @@ public class ProprieteController {
         //retour des propriétés
         return proprietes;
     }
+
+    //récupérer les propriétés par adresse
+    @GetMapping("/adresse/{adresse}")
+    public List<Propriete> getProprietesByAdresse(@PathVariable String adresse) {
+        //log entrée dans la méthode getProprietesByAdresse du controller ProprieteController
+        log.info("Entrée dans la méthode getProprietesByAdresse du controller ProprieteController");
+        List<Propriete> proprietes = new ArrayList<>();
+        //try catch pour récupérer les propriétés
+        try {
+            //récupération des propriétés
+            proprietes = proprieteService.getProprieteByAdresse(adresse);
+            //log récupération des propriétés
+            log.info("Récupération des propriétés");
+        } catch (Exception e) {
+            //log erreur récupération des propriétés
+            log.error("Erreur lors de la récupération des propriétés");
+        }
+        //log sortie de la méthode getProprietesByAdresse du controller ProprieteController
+        log.info("Sortie de la méthode getProprietesByAdresse du controller ProprieteController");
+        //retour des propriétés
+        return proprietes;
+    }
 }

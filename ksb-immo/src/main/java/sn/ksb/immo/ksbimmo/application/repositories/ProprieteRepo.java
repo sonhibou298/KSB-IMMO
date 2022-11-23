@@ -15,4 +15,6 @@ public interface ProprieteRepo extends JpaRepository<Propriete, UUID> {
     List<Propriete> findByProprietaire_Id(UUID fromString);
 
     List<Propriete> findByStatus(boolean status);
+
+    List<Propriete> findByAdresse(String adresse);
 }
