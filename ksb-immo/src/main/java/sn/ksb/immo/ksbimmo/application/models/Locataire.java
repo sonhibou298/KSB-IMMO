@@ -41,4 +41,7 @@ public class Locataire extends Utilisateur{
     @JoinColumn(table = "locataire_propriete")
     private List<Propriete> proprietes;
 
+    @OneToMany
+    private List<Loyer> loyers;
+
 }

@@ -8,6 +8,7 @@ import sn.ksb.immo.ksbimmo.application.enums.TypePropriete;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -59,6 +60,10 @@ public class Propriete {
 
     @Column(columnDefinition = "boolean default false")
     private Boolean status;
+
+    @OneToMany
+    @ToString.Exclude
+    private List<Loyer> loyer;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
