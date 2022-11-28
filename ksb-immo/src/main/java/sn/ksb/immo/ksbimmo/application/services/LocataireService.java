@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 import sn.ksb.immo.ksbimmo.application.dtos.LocataireDto;
 import sn.ksb.immo.ksbimmo.application.models.Agence;
 import sn.ksb.immo.ksbimmo.application.models.Locataire;
+import sn.ksb.immo.ksbimmo.application.models.Propriete;
 import sn.ksb.immo.ksbimmo.application.repositories.AgenceRepo;
 import sn.ksb.immo.ksbimmo.application.repositories.LocataireRepo;
+import sn.ksb.immo.ksbimmo.application.repositories.ProprieteRepo;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @Transactional
@@ -23,11 +24,14 @@ public class LocataireService {
 
     private final AgenceRepo agenceService;
 
+    private final ProprieteRepo proprieteRepo;
+
     private final ModelMapper mapper;
 
-    public LocataireService(LocataireRepo locataireRepo, AgenceRepo agenceService, ModelMapper mapper) {
+    public LocataireService(LocataireRepo locataireRepo, AgenceRepo agenceService, ProprieteRepo proprieteRepo, ModelMapper mapper) {
         this.locataireRepo = locataireRepo;
         this.agenceService = agenceService;
+        this.proprieteRepo = proprieteRepo;
         this.mapper = mapper;
     }
 
@@ -127,13 +131,20 @@ public class LocataireService {
             locataire = locataireRepo.existsByCni(dto.getCni()) ? locataireRepo.findByCni(dto.getCni()) : mapper.map(dto, Locataire.class);
             //recupération de l'agence
             Agence agence = agenceService.findById(UUID.fromString(dto.getAgenceId())).orElse(null);
+            Propriete propriete = proprieteRepo.findById(UUID.fromString(dto.getProprieteId())).orElse(null);
             //ajout de l'agence au locataire
-            if (agence != null)
+            if (agence != null && propriete != null) {
                 locataire.getAgences().add(agence);
-            //sauvegarde du locataire
-            locataire = locataireRepo.save(locataire);
-            //log création du locataire
-            log.info("Création du locataire");
+                locataire.getProprietes().add(propriete);
+                //sauvegarde du locataire
+                locataire = locataireRepo.save(locataire);
+                //log création du locataire
+                log.info("Création du locataire");
+                //générer le contrat de location ici
+
+            }else {
+                log.error("Agence ou propriété non trouvée");
+            }
         } catch (Exception e) {
             //log erreur création du locataire
             log.error("Erreur lors de la création du locataire : {}", e.getMessage());
@@ -228,6 +239,41 @@ public class LocataireService {
         }
         //log sortie de la méthode getLocatairesByPropriete du service LocataireService
         log.info("Sortie de la méthode getLocatairesByPropriete du service LocataireService");
+        //retourner la liste des locataires
+        return locataires;
+    }
+
+    //liste des Locataires avec la Mensualité impayée
+    public List<Locataire> getLocatairesImpayes() {
+        //log entrée dans la méthode getLocatairesImpayes du service LocataireService
+        log.info("Entrée dans la méthode getLocatairesImpayes du service LocataireService");
+        //initialisation de la liste des locataires
+        List<Locataire> locataires = new ArrayList<>();
+        //try catch pour récupérer les locataires
+        try {
+            //récupération de la date du premier jour du mois
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            Date dateDebut = calendar.getTime();
+            //récupération de la date du dernier jour du mois
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            Date dateFin = calendar.getTime();
+            //récupération des locataires
+            locataires = locataireRepo.findByMensualites_DatePaiementBetween(dateDebut, dateFin);
+            //log récupération des locataires
+            log.info("Récupération des locataires");
+        } catch (Exception e) {
+            //log erreur récupération des locataires
+            log.error("Erreur lors de la récupération des locataires : {}", e.getMessage());
+        }
+
+        //si la liste est vide
+        if (locataires.isEmpty()) {
+            //log aucun locataire trouvé dans la base de données
+            log.error("Aucun locataire trouvé dans la base de données");
+        }
+        //log sortie de la méthode getLocatairesImpayes du service LocataireService
+        log.info("Sortie de la méthode getLocatairesImpayes du service LocataireService");
         //retourner la liste des locataires
         return locataires;
     }

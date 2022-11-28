@@ -3,6 +3,7 @@ package sn.ksb.immo.ksbimmo.application.models;
 import lombok.*;
 
 import javax.persistence.Embeddable;
+import java.util.Date;
 
 @Embeddable
 @NoArgsConstructor
@@ -23,12 +24,11 @@ public class SituationProfessionnelle {
 
         private String posteOccupe;
 
-        private String salaire;
+        private Double salaire;
 
-        private String dateEmbauche;
+        private Date dateEmbauche;
 
-        private String dateDepart;
+        private Date dateDepart;
 
-        private String motifDepart;
 
 }

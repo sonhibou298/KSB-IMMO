@@ -17,7 +17,7 @@ public class LocataireDto {
 
     private String profession;
 
-    private LocataireDto conjoint;
+    private LocataireDto garant;
 
     private String agenceId;
 

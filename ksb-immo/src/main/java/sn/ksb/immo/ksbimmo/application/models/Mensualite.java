@@ -22,8 +22,6 @@ public class Mensualite {
     @Type(type = "uuid-char")
     private UUID id;
 
-    private Double montant;
-
     private Date datePaiement;
 
     @ManyToOne(cascade = CascadeType.MERGE)

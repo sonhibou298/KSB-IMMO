@@ -29,7 +29,7 @@ public class Locataire extends Utilisateur{
     private SituationProfessionnelle situationProfessionnelle;
 
     @OneToOne
-    private Locataire conjoint;
+    private Locataire garant;
 
     @ManyToMany
     @JoinColumn(table = "locataire_agence")

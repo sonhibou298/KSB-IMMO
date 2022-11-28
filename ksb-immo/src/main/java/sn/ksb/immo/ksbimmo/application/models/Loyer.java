@@ -32,6 +32,9 @@ public class Loyer {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Locataire locataire;
 
+    @OneToMany(cascade = CascadeType.MERGE)
+    private List<Mensualite> mensualites;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Employee employe;
 
