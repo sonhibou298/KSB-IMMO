@@ -63,6 +63,7 @@ public class Propriete {
 
     @OneToMany
     @ToString.Exclude
+    @JsonIgnore
     private List<Loyer> loyer;
 
 
@@ -70,9 +71,8 @@ public class Propriete {
     @ToString.Exclude
     private Apporteur apporteurAffaire;
 
-    @JsonIgnore
-    @ManyToOne(targetEntity = Proprietaire.class, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @ToString.Exclude
     private Proprietaire proprietaire;
 

@@ -125,7 +125,9 @@ public class EmployeeService {
         Employee employee = null;
         try {
             employee = mapper.map(dto, Employee.class);
-
+            employee.generateMatricule();
+            employee.setUsername(employee.getEmail());
+            employee.setPassword(employee.getPrenom().toLowerCase()+employee.getNom().toLowerCase());
             Agence agence = agenceRepo.findById(UUID.fromString(dto.getAgenceId())).orElse(null);
             if (agence != null) {
                 employee.setAgence(agence);

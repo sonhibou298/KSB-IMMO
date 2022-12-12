@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sn.ksb.immo.ksbimmo.application.dtos.ProprietaireDto;
 import sn.ksb.immo.ksbimmo.application.models.Proprietaire;
 import sn.ksb.immo.ksbimmo.application.services.ProprietaireService;
 
@@ -79,7 +80,7 @@ public class ProprietaireController {
 
     //create proprietaire
     @PostMapping
-    public ResponseEntity<Proprietaire> create(@RequestBody Proprietaire proprietaire) {
+    public ResponseEntity<Proprietaire> create(@RequestBody ProprietaireDto proprietaire) {
         //log the entry of the method
         log.info("Entrée dans la méthode create du controller ProprietaireController");
         //initialize a proprietaire

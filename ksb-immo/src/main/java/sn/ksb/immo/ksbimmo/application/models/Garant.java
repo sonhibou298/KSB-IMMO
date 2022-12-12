@@ -1,6 +1,5 @@
 package sn.ksb.immo.ksbimmo.application.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -12,20 +11,32 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
+@Setter
+@ToString
 @Builder
-public class Mensualite {
-
+public class Garant {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Type(type = "uuid-char")
     private UUID id;
+    @Column(unique = true)
+    private String cni;
 
-    private Date datePaiement;
+    private Date dateDelivranceCni;
+    private String nom;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JsonIgnore
-    private Loyer loyer;
+    private String prenom;
+
+    private String adresse;
+
+    private String telephone;
+
+    private String email;
+
+    private String profession;
+
+    @Embedded
+    private SituationProfessionnelle situationProfessionnelle;
 }

@@ -25,7 +25,7 @@ public class ProprieteController {
 
     //récupérer les propriétés d'une agence
     @GetMapping("/agence/{agenceId}")
-    public List<Propriete> getProprietesByAgence(String agenceId) {
+    public List<Propriete> getProprietesByAgence(@PathVariable String agenceId) {
         //log entrée dans la méthode getProprietesByAgence du controller ProprieteController
         log.info("Entrée dans la méthode getProprietesByAgence du controller ProprieteController");
         List<Propriete> proprietes = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ProprieteController {
 
     //récupérer les propriétés d'un client
     @GetMapping("/client/{clientId}")
-    public List<Propriete> getProprietesByClient(String clientId) {
+    public List<Propriete> getProprietesByClient(@PathVariable String clientId) {
         //log entrée dans la méthode getProprietesByClient du controller ProprieteController
         log.info("Entrée dans la méthode getProprietesByClient du controller ProprieteController");
         List<Propriete> proprietes = new ArrayList<>();
@@ -69,7 +69,7 @@ public class ProprieteController {
 
     //creer une propriété pour un client
     @PostMapping
-    public Propriete createPropriete(ProprieteDto dto) {
+    public Propriete createPropriete(@RequestBody ProprieteDto dto) {
         //log entrée dans la méthode createPropriete du controller ProprieteController
         log.info("Entrée dans la méthode createPropriete du controller ProprieteController");
         Propriete propriete = null;
@@ -91,7 +91,7 @@ public class ProprieteController {
 
     //modifier une propriété
     @PutMapping
-    public Propriete updatePropriete(ProprieteDto dto) {
+    public Propriete updatePropriete(@RequestBody ProprieteDto dto) {
         //log entrée dans la méthode updatePropriete du controller ProprieteController
         log.info("Entrée dans la méthode updatePropriete du controller ProprieteController");
         Propriete propriete = null;
@@ -113,7 +113,7 @@ public class ProprieteController {
 
     //supprimer une propriété
     @DeleteMapping("/{proprieteId}")
-    public void deletePropriete(String proprieteId) {
+    public void deletePropriete(@PathVariable String proprieteId) {
         //log entrée dans la méthode deletePropriete du controller ProprieteController
         log.info("Entrée dans la méthode deletePropriete du controller ProprieteController");
         //try catch pour supprimer une propriété

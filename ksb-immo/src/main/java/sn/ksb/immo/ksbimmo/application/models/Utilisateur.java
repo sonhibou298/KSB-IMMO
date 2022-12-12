@@ -39,6 +39,4 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private String type_utilisateur;
-
 }

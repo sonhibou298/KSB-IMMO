@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import sn.ksb.immo.ksbimmo.application.dtos.AgenceDto;
+import sn.ksb.immo.ksbimmo.application.enums.Role;
 import sn.ksb.immo.ksbimmo.application.models.Agence;
 import sn.ksb.immo.ksbimmo.application.models.Employee;
 import sn.ksb.immo.ksbimmo.application.repositories.AgenceRepo;
@@ -94,6 +95,10 @@ public class AgenceService {
         try {
             //ajouter l'agence a la liste des employés
             for (Employee employee : agence.getEmployees()) {
+                employee.setUsername(employee.getEmail());
+                employee.setPassword(employee.getPrenom().toLowerCase()+employee.getNom().toLowerCase());
+                employee.setRole(Role.AGENT);
+                employee.generateMatricule();
                 employee.setAgence(agence);
             }
             agence.setDateCreation(new Date());

@@ -3,6 +3,7 @@ package sn.ksb.immo.ksbimmo.application.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sn.ksb.immo.ksbimmo.application.dtos.MensualiteDto;
+import sn.ksb.immo.ksbimmo.application.models.Locataire;
 import sn.ksb.immo.ksbimmo.application.models.Loyer;
 import sn.ksb.immo.ksbimmo.application.models.Mensualite;
 import sn.ksb.immo.ksbimmo.application.repositories.LocataireRepo;
@@ -11,6 +12,8 @@ import sn.ksb.immo.ksbimmo.application.repositories.MensualiteRepo;
 import sn.ksb.immo.ksbimmo.application.repositories.ProprieteRepo;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
@@ -39,22 +42,23 @@ public class MensualiteService {
         log.info("Entrée dans la méthode createMensualite du service MensualiteService");
         Mensualite mensualite = null;
         try {
-            Loyer loyer = loyerRepository.findById(UUID.fromString(dto.getLoyerId())).orElse(null);
-            if (loyer == null) {
-                log.error("Contrat de Location introuvable : {}" + dto.getLoyerId());
-                return null;
-            }
-            mensualite = Mensualite.builder().datePaiement(new Date())
-                    .loyer(loyer).build();
-            mensualite = mensualiteRepository.save(mensualite);
-            //appeler le service mail pour envoyer le reçu au locataire
+            //recuperer le loyer du locataire
+            Locataire locataire = locataireRepository.findById(UUID.fromString(dto.getLocataireId())).get();
+            Loyer loyer = locataire.getLoyer();
+            //creer un objet mensualite
+            mensualite = Mensualite.builder().loyer(loyer).datePaiement(new Date()).build();
+            loyer.getMensualites().add(mensualite);
+            loyer.setDernierPaiement(new Date());
+            loyer.setDateProchainPaiement(Date.from(LocalDate.now().plusMonths(1).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            loyerRepository.save(loyer);
+            mensualiteRepository.save(mensualite);
         }catch (Exception e) {
             log.error("Erreur lors la création de l'objet : {}", e.getMessage());
         }
-        if (mensualite != null) {
+        if (mensualite == null) {
             log.error("Erreur lors la création de l'objet");
         }
-        log.info("Entrée dans la méthode createMensualite du service MensualiteService");
+        log.info("Sortie de la méthode createMensualite du service MensualiteService");
         return mensualite;
     }
     

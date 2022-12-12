@@ -43,5 +43,4 @@ public class Agence {
     @ToString.Exclude
     @JsonIgnore
     private List<Employee> employees;
-
 }

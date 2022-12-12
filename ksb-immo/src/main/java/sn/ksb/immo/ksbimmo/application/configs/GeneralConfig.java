@@ -6,6 +6,7 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import sn.ksb.immo.ksbimmo.application.enums.TypePropriete;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +30,14 @@ public class GeneralConfig {
                 }
             }
         });
+
+        mapper.addConverter(new Converter<String, TypePropriete>() {
+            @Override
+            public TypePropriete convert(MappingContext<String, TypePropriete> mappingContext) {
+                return TypePropriete.valueOf(mappingContext.getSource().toUpperCase());
+            }
+        });
+
         return mapper;
     }
 
@@ -36,5 +45,7 @@ public class GeneralConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
+
 
 }

@@ -53,7 +53,7 @@ class ApporteurController {
 
     //créer un nouvel apporteur
     @PostMapping
-    public Apporteur createApporteur(ApporteurDto apporteur) {
+    public Apporteur createApporteur(@RequestBody ApporteurDto apporteur) {
         //log the entry of the method
         log.info("Entrée dans la méthode create du controller ApporteurController");
         //initialize a apporteur
@@ -82,7 +82,7 @@ class ApporteurController {
 
     //récupérer un apporteur par son cin
     @GetMapping("/{cni}")
-    public Apporteur getApporteurByCni(String cni) {
+    public Apporteur getApporteurByCni(@PathVariable String cni) {
         //log the entry of the method
         log.info("Entrée dans la méthode getApporteurByCni du controller ApporteurController");
         //initialize a apporteur
@@ -111,7 +111,7 @@ class ApporteurController {
 
     //modifier un apporteur
     @PutMapping
-    public Apporteur updateApporteur(ApporteurDto apporteur) {
+    public Apporteur updateApporteur(@RequestBody ApporteurDto apporteur) {
         //log the entry of the method
         log.info("Entrée dans la méthode update du controller ApporteurController");
         //initialize a apporteur
@@ -140,7 +140,7 @@ class ApporteurController {
 
     //supprimer un apporteur par son cin
     @DeleteMapping("/{cni}")
-    public void deleteApporteurByCni(String cni) {
+    public void deleteApporteurByCni(@PathVariable String cni) {
         //log the entry of the method
         log.info("Entrée dans la méthode deleteApporteurByCni du controller ApporteurController");
         //try to delete a apporteur from the service

@@ -1,12 +1,14 @@
 package sn.ksb.immo.ksbimmo.application.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@Builder
 public class AgenceDto {
     private String id;
     private String nom;
